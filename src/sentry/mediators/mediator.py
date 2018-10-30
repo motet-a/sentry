@@ -193,6 +193,9 @@ class Mediator(object):
         if param and param.has_default:
             return param.default(self)
 
+        if not param.has_default and not param.is_required:
+            return None
+
         return self.__getattribute__(key)
 
     @property
