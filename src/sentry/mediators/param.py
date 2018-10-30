@@ -97,7 +97,7 @@ class Param(object):
 
         if self.is_required and not self._type_match(value):
             raise TypeError(u'`{}` must be a {}, received {}'.format(
-                name, self.type, self._eval_type()
+                name, self.type, self._eval_value_type(value)
             ))
 
         return True
@@ -135,6 +135,12 @@ class Param(object):
     def _eval_type(self):
         mod, klass = self.type.rsplit('.', 1)
         return getattr(sys.modules[mod], klass)
+
+    def _eval_value_type(self, value):
+        if isinstance(value, six.string_types):
+            mod, klass = value.rsplit('.', 1)
+            return getattr(sys.modules[mod], klass)
+        return type(value)
 
     def _missing_value(self, value):
         return self.is_required and value is None and not self.has_default
