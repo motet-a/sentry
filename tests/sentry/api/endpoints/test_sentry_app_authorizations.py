@@ -35,6 +35,7 @@ class TestSentryAppAuthorizations(APITestCase):
         self.install, self.grant = SentryAppInstallationCreator.run(
             organization=self.org,
             slug='nulldb',
+            user=self.user,
         )
 
         self.url = reverse(
